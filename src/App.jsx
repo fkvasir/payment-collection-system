@@ -1,35 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
+import Header from "./components/header";
+import Sidebar from "./components/sidebar";
+import PaymentRecords from "./components/screens/paymentRecords";
+import StudentRecords from "./components/screens/studentRecords";
+import Items from "./components/screens/items";
+import Dashboard from "./components/screens/dashboard";
+import TransactionHistory from "./components/screens/transactionHistory";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Router>
+      <AppContent />
+    </Router>
+  );
 }
 
-export default App
+function AppContent() {
+  const location = useLocation();
+
+  return (
+    <div className="flex h-screen">
+      <Sidebar />
+      <main className="flex-1 ml-64 overflow-hidden">
+        <Header />
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/payment-records" element={<PaymentRecords />} />
+          <Route path="/transaction-history" element={<TransactionHistory />} />
+          <Route path="/student-records" element={<StudentRecords />} />
+          <Route path="/items" element={<Items />} />
+        </Routes>
+      </main>
+    </div>
+  );
+}
+
+export default App;
